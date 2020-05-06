@@ -17,5 +17,6 @@ If you are interested in testing your code as you go, you can use `tests.js` as 
 
 ### Behavior Driven Development (BDD)
 Behavior Driven Development (BDD) methodology will be used and includes:
-- Creating scenarios using [Cucumber.js](https://cucumber.io/docs/installation/javascript/)
-- Using [GitHub Actions](https://help.github.com/en/actions) for running automated tests
+- creating scenarios using [Cucumber.js](https://cucumber.io/docs/installation/javascript/)
+- interacting with UI via [Puppeteer](https://pptr.dev/) 
+- using [GitHub Actions](https://help.github.com/en/actions) for running automated tests
