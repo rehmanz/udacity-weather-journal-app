@@ -8,16 +8,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: |
-          npm install express
-          npm install cors
-          npm install puppeteer
-          npm install cucumber --save-dev
-          node server/server.js &
+        run: make clean build
       - name: Run tests
-        run: |
-          npm test
-          curl localhost:3000/all
+        run: make test
           
           
 
