@@ -8,9 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: make clean build
+        run: make clean build deploy
       - name: Run tests
         run: make test
+      - name: Cleanup
+        run: make clean
           
           
 
