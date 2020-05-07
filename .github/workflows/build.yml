@@ -8,13 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: |
-          npm i puppeteer
-          npm install cucumber --save-dev
+        run: make clean build deploy
       - name: Run tests
-        run: |
-          npm test
-          ls
+        run: make test
+      - name: Cleanup
+        run: make clean
+          
           
 
         

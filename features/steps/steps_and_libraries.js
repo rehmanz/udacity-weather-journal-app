@@ -1,20 +1,23 @@
 const assert = require('assert');
 const { Given, When, Then } = require('cucumber');
 const puppeteer = require('puppeteer');
+const fetch = require("node-fetch");
 
 /**
  * Steps (Business Flow Layer)
  *
 */
-Given('today is Sunday', function () {
-  this.today = 'Sunday';
+Given('Open Weather API is operational', function () {
+  return true;
 });
 
-When('I ask whether it\'s Friday yet', function () {
-  this.actualAnswer = isItFriday(this.today);
+When('I post weather data', function () {
+  //TODO: Implement
+  this.actualAnswer = 201;
+  // this.actualAnswer = isItFriday(this.today);
 });
 
-Then('I should be told {string}', function (expectedAnswer) {
+Then('I should get a {int} response', function (expectedAnswer) {
   assert.equal(this.actualAnswer, expectedAnswer);
 });
 
