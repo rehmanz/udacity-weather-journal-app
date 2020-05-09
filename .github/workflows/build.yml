@@ -8,12 +8,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
+        shell: bash
+        env: 
+          OPEN_WEATHER_MAP_API_KEY: ${{ secrets.OPEN_WEATHER_MAP_API_KEY }}
         run: make clean build deploy
       - name: Run tests
+        shell: bash
+        env: 
+          OPEN_WEATHER_MAP_API_KEY: ${{ secrets.OPEN_WEATHER_MAP_API_KEY }}
         run: make test
       - name: Cleanup
-        run: make clean
-          
+        run: make clean        
           
 
         
