@@ -25,6 +25,9 @@ ifeq ($(shell uname -s), Linux)
 endif
 
 test:
+	$(call build_step,"Running npm tests")
+	npm test
+	
 	$(call build_step,"Testing Vault setup")
 	VAULT_ADDR=${VAULT_ADDR} vault login ${VAULT_DEV_ROOT_TOKEN_ID}
 	VAULT_ADDR=${VAULT_ADDR} vault kv put secret/hello foo=test
@@ -33,9 +36,6 @@ test:
 
 	$(call build_step,"Deploy secrets")
 	VAULT_ADDR=${VAULT_ADDR} vault kv put secret/openweathermap api_key=${OPEN_WEATHER_MAP_API_KEY}
-
-	$(call build_step,"Running npm tests")
-	npm test
 
 deploy:
 	$(call build_step,"Deploying Vault container")
