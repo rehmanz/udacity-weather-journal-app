@@ -3,24 +3,38 @@ const { Given, When, Then } = require('cucumber');
 const puppeteer = require('puppeteer');
 const fetch = require("node-fetch");
 
+const node_url = "http://localhost:3000"
+const weathermap_api_key = process.env.OPEN_WEATHER_MAP_API_KEY;
+openweathermap_url = "https://api.openweathermap.org/data/2.5/weather?q=Budapest&appid=" +
+                      weathermap_api_key + "&units=metric";
+
+
 /**
  * Steps (Business Flow Layer)
  *
 */
-Given('Open Weather API is operational', function () {
-  return true;
+Given('{string} API is operational', function (api_id) {
+  var api_url = ""
+  if (api_id == "OpenWeather") {
+    api_url = openweathermap_url;
+  }
+
+  fetch(api_url)
+  .then(
+    function(response) {
+      response.status != 200 && assert.fail("API did not respond.");
+    }
+  );
 });
 
-When('I post weather data', function () {
-  //TODO: Implement
-  this.actualAnswer = 201;
-  // this.actualAnswer = isItFriday(this.today);
+Given('Node server is operational', function () {
+  fetch(node_url)
+  .then(
+    function(response) {
+      response.status != 200 && assert.fail("Node server did not respond.");
+    }
+  );
 });
-
-Then('I should get a {int} response', function (expectedAnswer) {
-  assert.equal(this.actualAnswer, expectedAnswer);
-});
-
 
 /**
  * Libraries (Technical Layer)
