@@ -1,33 +1,22 @@
-// Setup empty JS object to act as endpoint for all routes
-projectData = []
-
-// Express to run server and routes
 const express = require('express');
-
-// Start up an instance of app
-const app = express();
-
-/* Dependencies */
 const bodyParser = require('body-parser');
-
-/* Middleware*/
-//Here we are configuring express to use body-parser as middle-ware.
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-// Cors for cross origin allowance
 const cors = require('cors');
-app.use(cors());
 
-// Initialize the main project folder
-app.use(express.static('website'));
-
+// Global variables
+const projectData = []
+const weathermap_api_key = process.env.OPEN_WEATHER_MAP_API_KEY;
 const port = 3000;
 
-// Spin up the server
+// Setup express app
+const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
+app.use(express.static('website'));
+
+// Spin server
 const server = app.listen(port, listening);
 function listening(){
-    // console.log(server);
     console.log(`running on localhost: ${port}`);
 };
 
@@ -49,4 +38,24 @@ function addWeather (req, res) {
   projectData.push(req.body)
   console.log(projectData);
 };
-  
+
+app.get('/weather', function(req, res) {
+  fetch(weathermap_url)
+  .then(
+    function(response) {
+      if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+          response.status);
+        return;
+      }
+
+      // Examine the text in the response
+      response.json().then(function(data) {
+        console.log(data);
+      });
+    }
+  )
+  .catch(function(err) {
+    console.log('Fetch Error :-S', err);
+  });
+});
