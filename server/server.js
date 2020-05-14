@@ -38,24 +38,3 @@ function addWeather (req, res) {
   projectData.push(req.body)
   console.log(projectData);
 };
-
-app.get('/weather', function(req, res) {
-  fetch(weathermap_url)
-  .then(
-    function(response) {
-      if (response.status !== 200) {
-        console.log('Looks like there was a problem. Status Code: ' +
-          response.status);
-        return;
-      }
-
-      // Examine the text in the response
-      response.json().then(function(data) {
-        console.log(data);
-      });
-    }
-  )
-  .catch(function(err) {
-    console.log('Fetch Error :-S', err);
-  });
-});
