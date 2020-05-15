@@ -2,9 +2,9 @@
  * Define Global Variables
  *
  */
-const weathermap_api_key = "8c7739e6678bc414db460b7f5a6c6c39";
-const weathermap_base_url = "http://api.openweathermap.org/data/2.5/weather?appid=" + weathermap_api_key;
-
+const weatherMapAPIKey = "8c7739e6678bc414db460b7f5a6c6c39";
+const weatherMapBaseURL = "http://api.openweathermap.org/data/2.5/weather?appid=" + weatherMapAPIKey;
+const backendUrl = "http://localhost:3000"
 
 /**
  * End Global Variables
@@ -12,8 +12,8 @@ const weathermap_base_url = "http://api.openweathermap.org/data/2.5/weather?appi
  *
  */
 /**
- * @description    Gets current date
- * @returns {string} Current date in DD.MM.YYYY format
+ * @description       Gets current date
+ * @returns {string}  Current date in DD.MM.YYYY format
  */
 function getCurrentDate() {
   let d = new Date();
@@ -21,25 +21,35 @@ function getCurrentDate() {
 }
 
 /**
- * @description    Gets zip code
- * @returns {number} Zip code
+ * @description       Gets zip code
+ * @returns {number}  Zip code
  */
 function getZipCode() {
   const zipCodeElement = document.getElementById('zip');
+  //TODO: Check if value is missing
   return zipCodeElement.value
 }
 
 /**
- * @description    Gets all section IDs from page
- * @returns {list} List of section IDs
+ * @description       Gets user response
+ * @returns {string}  User response
+ */
+function getUserResponse() {
+  const textInputElement = document.getElementById('feelings');
+  //TODO: Check if value is missing
+  return textInputElement.value
+}
+
+/**
+ * @description     Gets weather data
+ * @returns {Map}   Weather data
  */
 const getWeather = async (url= '', zipCode = '') => {
   const weather_query_url = url + "&zip=" + zipCode
-  console.log(weather_query_url);
   const request = await fetch(weather_query_url);
   try {
-    const allData = await request.json();
-    console.log(allData)
+    const weatherData = await request.json();
+    return weatherData;
   }
   catch(error) {
     //TODO: Print a friendly error message
@@ -47,13 +57,47 @@ const getWeather = async (url= '', zipCode = '') => {
   }
 }
 
-
 /**
  * End Helper Functions
  * Begin Main Functions
  *
  */
+/**
+ * @description    Post data
+ */
+const postData = async ( url = '', data = {})=>{
+  const response = await fetch(url, {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data), // body data type must match "Content-Type" header        
+  });
 
+  try {
+    const newData = await response.json();
+    return newData;
+  }catch(error) {
+    console.log("error", error);
+  }
+};
+
+/**
+ * @description    Gets weather data and posts to NodeJS backend
+ */
+function getPostWeather(url='', zipCode='', userResponse='') {
+  getWeather(url, zipCode)
+    .then(function(weatherData) {
+      //TODO: Check if temperature key is missing
+      const data = {
+        'temperature'   : weatherData.main.temp,
+        'date'          : getCurrentDate(),
+        'user_response' : getUserResponse()
+      }
+      console.log(postData(backendUrl+"/", data));
+    });
+}
 
 
 /**
@@ -65,7 +109,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const form = document.getElementById('generate');
   console.log(form);
   form.addEventListener("click", function() {
-    getWeather(weathermap_base_url, getZipCode());
+    getPostWeather(weatherMapBaseURL, getZipCode(), getUserResponse());
   });
 });
 
