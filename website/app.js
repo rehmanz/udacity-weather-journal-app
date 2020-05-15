@@ -12,17 +12,37 @@ const weathermap_base_url = "http://api.openweathermap.org/data/2.5/weather?appi
  *
  */
 /**
+ * @description    Gets current date
+ * @returns {string} Current date in DD.MM.YYYY format
+ */
+function getCurrentDate() {
+  let d = new Date();
+  return d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+}
+
+/**
+ * @description    Gets zip code
+ * @returns {number} Zip code
+ */
+function getZipCode() {
+  const zipCodeElement = document.getElementById('zip');
+  return zipCodeElement.value
+}
+
+/**
  * @description    Gets all section IDs from page
  * @returns {list} List of section IDs
  */
-const getWeather = async (url= '') => {
-  console.log(url);
-  const request = await fetch(url);
+const getWeather = async (url= '', zipCode = '') => {
+  const weather_query_url = url + "&zip=" + zipCode
+  console.log(weather_query_url);
+  const request = await fetch(weather_query_url);
   try {
-    const allData = await request.json()
-    console.log(allData);
+    const allData = await request.json();
+    console.log(allData)
   }
   catch(error) {
+    //TODO: Print a friendly error message
     console.log("error", error);
   }
 }
@@ -36,9 +56,6 @@ const getWeather = async (url= '') => {
 
 
 
-
-
-
 /**
  * End Main Functions
  * Begin Events
@@ -48,26 +65,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const form = document.getElementById('generate');
   console.log(form);
   form.addEventListener("click", function() {
-    getWeather(url=weathermap_base_url+"&id=2172797");;
+    getWeather(weathermap_base_url, getZipCode());
   });
 });
-
-
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
-
-
-/* Event listener to add function to existing HTML DOM element */
-
-
-/* Function called by event listener */
-
-/* Function to GET Web API Data */
-
-/* Function to POST data */
-
-
-/* Function to GET Project Data */
 
 

@@ -23,6 +23,11 @@ function listening(){
 // Callback to debug
 
 // Initialize all route with a callback function
+function addWeather (req, res) {
+  console.log(req.body);
+  projectData.push(req.body)
+  console.log(projectData);
+};
 
 // Callback function to complete GET '/all'
 app.get('/all', function (req, res) {
@@ -32,9 +37,3 @@ app.get('/all', function (req, res) {
 
 // Post Route
 app.post('/', addWeather);
-
-function addWeather (req, res) {
-  console.log(req.body);
-  projectData.push(req.body)
-  console.log(projectData);
-};
