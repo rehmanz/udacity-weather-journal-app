@@ -1,0 +1,88 @@
+/* ---- Base Rules ---- */
+* {
+  box-sizing: border-box;
+}
+body {
+  padding: 1rem;
+  background: wheat;
+}
+
+button {
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background: peru;
+  font-size: 1rem;
+}
+
+input {
+  font-family: Avenir, Roboto, Helvetica, san-serif;
+  font-size: 95%;
+}
+
+textarea {
+  font-family: Avenir, Roboto, Helvetica, san-serif;
+  font-size: 95%;
+  display: flex;
+  flex-flow: column;
+}
+
+/* ---- Layout Rules ---- */
+main {
+  max-width: 500px;
+  margin: 0 auto;
+}
+div {
+  margin: 1rem 0;
+}
+
+.headline {
+  font-family: Avenir, Roboto, Helvetica, san-serif;
+  font-size: 200%;
+  font-weight: bold;
+}
+
+.zip {
+  font-family: Avenir, Roboto, Helvetica, san-serif;
+  font-size: 100%;
+}
+
+.feel {
+  font-family: Avenir, Roboto, Helvetica, san-serif;
+  font-size: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.title {
+  font-family: Avenir, Roboto, Helvetica, san-serif;
+  font-size: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.entry {
+  font-family: Avenir, Roboto, Helvetica, san-serif;
+  font-size: 100%;
+  font-weight: bold;
+  display: flex;
+  flex-flow: column;
+  background: gainsboro;
+}
+
+#entryHolder {
+  font-weight: normal;
+}
+
+#date {
+  font-weight: normal;
+}
+
+#temp {
+  font-weight: normal;
+}
+
+#content {
+  font-weight: normal;
+}
