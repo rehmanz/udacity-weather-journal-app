@@ -44,6 +44,9 @@ deploy:
 	$(call build_step,"Deploying node server")
 	node server/server.js > app.log 2>&1 &
 
+	$(call build_step,"Deploying Nginx")
+	docker run --name some-nginx -v ${PWD}/website:/usr/share/nginx/html:ro -d -p 8080:80 nginx
+
 redeploy:
 	killall -9 node || true
 	node server/server.js > app.log 2>&1 &
@@ -53,8 +56,8 @@ clean:
 	killall -9 node || true
 	rm -rf package-lock.json node_modules *.png
 
-#	$(call build_step,"Removing containers")
-#	docker rm $$(docker ps -a -q) --force || true
-#	docker rmi $$(docker images -q) --force || true
+	$(call build_step,"Removing containers")
+	docker rm $$(docker ps -a -q) --force || true
+	docker rmi $$(docker images -q) --force || true
 
 all: clean build deploy test

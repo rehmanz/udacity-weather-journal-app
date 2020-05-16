@@ -139,5 +139,3 @@ window.addEventListener('DOMContentLoaded', (event) => {
     getPostWeather(weatherMapBaseURL, getZipCode(), getUserResponse());
   });
 });
-
-
