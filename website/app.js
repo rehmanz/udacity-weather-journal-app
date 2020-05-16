@@ -22,7 +22,7 @@ function getCurrentDate() {
 
 /**
  * @description       Gets zip code
- * @returns {number}  Zip code
+ * @returns {string}  Zip code
  */
 function getZipCode() {
   const zipCodeElement = document.getElementById('zip');
@@ -42,6 +42,8 @@ function getUserResponse() {
 
 /**
  * @description     Gets weather data
+ * @param {string}  Open Weather Map URL
+ * @param {string}  Zip Code
  * @returns {Map}   Weather data
  */
 const getWeather = async (url= '', zipCode = '') => {
@@ -58,12 +60,27 @@ const getWeather = async (url= '', zipCode = '') => {
 }
 
 /**
+ * @description       Update UI
+ * @param {string}    Date
+ * @param {string}    Temperature
+ * @param {string}    Content
+ */
+function updateUI(date, temperature, content) {
+  // TODO: Optimize this code by creating element struct
+  document.getElementById('date').innerText = date;
+  document.getElementById('temp').innerText = temperature;
+  document.getElementById('content').innerText = content;
+}
+
+/**
  * End Helper Functions
  * Begin Main Functions
  *
  */
 /**
- * @description    Post data
+ * @description     Post data
+ * @param {string}  Backend URL
+ * @param {Map}     Weather data map
  */
 const postData = async ( url = '', data = {})=>{
   const response = await fetch(url, {
@@ -84,21 +101,31 @@ const postData = async ( url = '', data = {})=>{
 };
 
 /**
- * @description    Gets weather data and posts to NodeJS backend
+ * @description     Gets weather data and posts to NodeJS backend
+ * @param {string}  Open Weather Map URL
+ * @param {string}  Zip Code
+ * @param {string}  User Response
  */
 function getPostWeather(url='', zipCode='', userResponse='') {
   getWeather(url, zipCode)
-    .then(function(weatherData) {
+    .then(function(weatherData={}) {
       //TODO: Check if temperature key is missing
       const data = {
         'temperature'   : weatherData.main.temp,
         'date'          : getCurrentDate(),
         'user_response' : getUserResponse()
       }
-      console.log(postData(backendUrl+"/", data));
+      return data;
+    })
+    .then(function (data={}) {
+      console.log(data);
+      postData(backendUrl+'/', data);
+      return data;
+    })
+    .then(function (data={}) {
+      updateUI(data.date, data.temperature, data.user_response);
     });
 }
-
 
 /**
  * End Main Functions
