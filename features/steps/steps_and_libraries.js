@@ -3,51 +3,56 @@ const { Given, When, Then } = require('cucumber');
 const puppeteer = require('puppeteer');
 const fetch = require("node-fetch");
 
-const node_url = "http://localhost:3000"
-const weathermap_api_key = process.env.OPEN_WEATHER_MAP_API_KEY;
-openweathermap_url = "https://api.openweathermap.org/data/2.5/weather?q=Budapest&appid=" +
-                      weathermap_api_key + "&units=metric";
+const webServer = "http://localhost:8080"
+const backendURL = "http://localhost:3000"
+const weatheMapAPIKey = process.env.OPEN_WEATHER_MAP_API_KEY;
+openWeatherMapURL = "https://api.openweathermap.org/data/2.5/weather?q=Budapest&appid=" +
+                      weatheMapAPIKey + "&units=metric";
 
 
 /**
  * Steps (Business Flow Layer)
  *
 */
-Given('{string} API is operational', function (api_id) {
-  var api_url = ""
-  if (api_id == "OpenWeather") {
-    api_url = openweathermap_url;
-  }
-
-  fetch(api_url)
-  .then(
-    function(response) {
-      response.status != 200 && assert.fail("API did not respond.");
-    }
-  );
+Given('a zip code {string}', function (zipCode) {
+  this.zipCode = zipCode;
 });
 
-Given('Node server is operational', function () {
-  fetch(node_url)
-  .then(
-    function(response) {
-      response.status != 200 && assert.fail("Node server did not respond.");
-    }
-  );
+Given('my feeling {string}', function (feeling) {
+  this.feeling = feeling;
+});
+
+When('I make a weather request', function() {
+  weatherRequest(this.zipCode, this.feeling);
+});
+
+Then('I should see temperature, zip code and my feelings', function() {
+  // TODO: Implement
 });
 
 /**
  * Libraries (Technical Layer)
  * 
 */
-function isItFriday(today) {
+
+/**
+ * @description       Interacts with UI to submit zip code and feeling
+ * @param {string}    Zip Code
+ * @param {string}    User Response
+ * @returns {string}  Browser snapshot stored as <zipCode>.png
+ */
+function weatherRequest(zipCode, feeling) {
   (async () => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      headless: false,
+    });
     const page = await browser.newPage();
-    await page.goto('https://example.com');
-    await page.screenshot({path: 'example.png'});
-  
+    await page.goto(webServer);
+    await page.waitForSelector('#zip');
+    await page.type('input#zip', zipCode)
+    await page.type('textarea#feelings', feeling);
+    await page.click('button#generate');
+    await page.screenshot({path: zipCode+'.png'});
     await browser.close();
   })();
-  return 'Nope';
 }
