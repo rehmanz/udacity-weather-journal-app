@@ -43,9 +43,7 @@ Then('I should see temperature, zip code and my feelings', function() {
  */
 function weatherRequest(zipCode, feeling) {
   (async () => {
-    const browser = await puppeteer.launch({
-      headless: false,
-    });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(webServer);
     await page.waitForSelector('#zip');
