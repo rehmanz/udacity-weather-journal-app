@@ -2,11 +2,19 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-// Global variables
+/**
+ * Define Global Variables
+ *
+ */
 const projectData = []
-const weathermap_api_key = process.env.OPEN_WEATHER_MAP_API_KEY;
+const weatherMapAPIKey = process.env.OPEN_WEATHER_MAP_API_KEY;
 const port = 3000;
 
+/**
+ * End Global Variables
+ * Start Express Setup
+ *
+ */
 // Setup express app
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,20 +28,40 @@ function listening(){
     console.log(`running on localhost: ${port}`);
 };
 
-// Callback to debug
-
-// Initialize all route with a callback function
+/**
+ * stop Express Setup
+ * Start Helper Functions
+ *
+ */
+/**
+ * @description       Add weather data
+ * @returns {string}  request
+ */
 function addWeather (req, res) {
   console.log(req.body);
   projectData.push(req.body)
   console.log(projectData);
 };
 
-// Callback function to complete GET '/all'
+/**
+ * End Helper Functions
+ * Begin Main Functions
+ *
+ */
+/**
+ * @description     Get all data
+ * @param {string}  Endpoint '/all'
+ * @returns {Map}   Return project data map
+ */
 app.get('/all', function (req, res) {
   console.log(projectData);
   res.send(projectData);
 });
 
-// Post Route
+/**
+ * @description     Post weather data
+ * @param {string}  Endpoint '/all'
+ * @param {Map}     Request body
+ * @returns {Map}   Return project data map
+ */
 app.post('/', addWeather);

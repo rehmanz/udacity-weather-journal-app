@@ -19,4 +19,4 @@ Behavior Driven Development (BDD) methodology will be used for
 [GitHub Actions](https://help.github.com/en/actions) will be integrated for running automated tests.
 
 ### OpenWeather API
-[OpenWeather API](https://openweathermap.org/current) be used to query weather data.
+[OpenWeather API](https://openweathermap.org/current) used to query weather data.
